@@ -15,16 +15,17 @@ class SignUpView extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
           child: BlocProvider(
-        create: (context) =>
-            SignUpBloc(authRepo: context.read<AuthRepository>()),
-        child: Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            _signUpForm(),
-            _showLoginButton(context),
-          ],
-        )
-      )),
+              create: (context) => SignUpBloc(
+                    authRepo: context.read<AuthRepository>(),
+                    authCubit: context.read<AuthCubit>(),
+                  ),
+              child: Stack(
+                alignment: Alignment.bottomCenter,
+                children: [
+                  _signUpForm(),
+                  _showLoginButton(context),
+                ],
+              ))),
     );
   }
 
@@ -74,17 +75,15 @@ class SignUpView extends StatelessWidget {
     );
   }
 
-  Widget _emailField(){
-    return BlocBuilder<SignUpBloc,SignUpState>(builder: (context,state){
+  Widget _emailField() {
+    return BlocBuilder<SignUpBloc, SignUpState>(builder: (context, state) {
       return TextFormField(
-        decoration: InputDecoration(
-          icon: Icon(Icons.mail_outline),
-          hintText: 'Email'
-        ),
+        decoration:
+            InputDecoration(icon: Icon(Icons.mail_outline), hintText: 'Email'),
         validator: (value) => state.isValidEmail ? null : 'Invalid Email',
-        onChanged: (value)=> context.read<SignUpBloc>().add(
-          SignUpEmailChanged(email: value),
-        ),
+        onChanged: (value) => context.read<SignUpBloc>().add(
+              SignUpEmailChanged(email: value),
+            ),
       );
     });
   }
@@ -131,11 +130,11 @@ class SignUpView extends StatelessWidget {
     });
   }
 
-  Widget _showLoginButton(BuildContext context){
-     return TextButton(
-       child: Text("If you already have account please Login"),
-       onPressed: ()=> context.read<AuthCubit>().showLogin(),
-     );
+  Widget _showLoginButton(BuildContext context) {
+    return TextButton(
+      child: Text("If you already have account please Login"),
+      onPressed: () => context.read<AuthCubit>().showLogin(),
+    );
   }
 
   void _showSnackBar(BuildContext context, String message) {

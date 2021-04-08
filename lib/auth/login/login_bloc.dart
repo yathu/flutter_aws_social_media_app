@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whfms_mobile_app/auth/auth_cubit.dart';
 import 'package:whfms_mobile_app/auth/auth_repository.dart';
 import 'package:whfms_mobile_app/auth/form_submition_status.dart';
 import 'package:whfms_mobile_app/auth/login/login_event.dart';
@@ -6,8 +7,9 @@ import 'package:whfms_mobile_app/auth/login/login_state.dart';
 
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final AuthRepository authRepo;
+  final AuthCubit authCubit;
 
-  LoginBloc({this.authRepo}) : super(LoginState());
+  LoginBloc({this.authRepo, this.authCubit }) : super(LoginState());
 
   @override
   Stream<LoginState> mapEventToState(LoginEvent event) async* {

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whfms_mobile_app/auth/auth_cubit.dart';
 import 'package:whfms_mobile_app/auth/auth_repository.dart';
 import 'package:whfms_mobile_app/auth/confirm/confirmation_bloc.dart';
 import 'package:whfms_mobile_app/auth/confirm/confirmation_event.dart';
@@ -16,7 +17,9 @@ class ConfirmationView extends StatelessWidget {
       body: SafeArea(
           child: BlocProvider(
         create: (context) =>
-            ConfirmationBloc(authRepo: context.read<AuthRepository>()),
+            ConfirmationBloc(authRepo: context.read<AuthRepository>(),
+              authCubit: context.read<AuthCubit>(),
+            ),
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -58,7 +61,7 @@ class ConfirmationView extends StatelessWidget {
         return TextFormField(
           decoration: InputDecoration(
             icon: Icon(Icons.https),
-            hintText: 'Username',
+            hintText: 'Confirmation code',
           ),
           validator: (value) => state.isValidConfirmationCode
               ? null

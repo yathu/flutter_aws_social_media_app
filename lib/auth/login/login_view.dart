@@ -16,7 +16,10 @@ class LoginView extends StatelessWidget {
       body: SafeArea(
           child: BlocProvider(
               create: (context) =>
-                  LoginBloc(authRepo: context.read<AuthRepository>()),
+                  LoginBloc(
+                      authRepo: context.read<AuthRepository>(),
+                    authCubit: context.read<AuthCubit>(),
+                  ),
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
