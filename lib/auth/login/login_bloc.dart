@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:whfms_mobile_app/auth/auth_credentials.dart';
 import 'package:whfms_mobile_app/auth/auth_cubit.dart';
 import 'package:whfms_mobile_app/auth/auth_repository.dart';
 import 'package:whfms_mobile_app/auth/form_submition_status.dart';
@@ -27,8 +28,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       yield state.copyWith(formStatus: FormSubmitting());
 
       try {
-        await authRepo.login(userName: state.username, password: state.password);
+        final userId = await authRepo.login(userName: state.username, password: state.password);
         yield state.copyWith(formStatus: SubmissionSuccess());
+
+        authCubit.launchSession(AuthCredentials(
+          username: state.username,
+          userId: userId,
+        ));
+
       } catch (e) {
         yield state.copyWith(formStatus: SubmissionFailed(e));
       }
